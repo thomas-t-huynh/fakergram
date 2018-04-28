@@ -6,7 +6,8 @@ import { ImagePicker } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
 import { startAddPic,  startGetPics, startRemovePic } from '../actions/pics';
-import { startUpdateInfo } from '../actions/info';
+import { startUpdateInfo, startGetInfo } from '../actions/info';
+
 
 class EditProfile extends Component {
     state = {
@@ -157,7 +158,8 @@ const styles = {
 
 const mapStateToProps = (state) => {
     return {
-        pics: state.pics
+        pics: state.pics,
+        info: state.info
     }
 }
 
@@ -165,7 +167,8 @@ const mapDispatchToProps = (dispatch) => ({
     startAddPic: (uri) => dispatch(startAddPic(uri)),
     startGetPics: () => dispatch(startGetPics()),
     startRemovePic: (id) => dispatch(startRemovePic(id)),
-    startUpdateInfo: (name, details) => dispatch(startUpdateInfo(name, details))
+    startUpdateInfo: (name, details) => dispatch(startUpdateInfo(name, details)),
+    startGetInfo: () => dispatch(startGetInfo())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

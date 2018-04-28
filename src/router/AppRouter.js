@@ -24,24 +24,26 @@ const AppRouter = () => {
                         initial
                         renderLeftButton={profileIcon}       
                      />
-                    <Scene 
-                        key="profile" 
-                        component={Profile} 
-                        title="Profile"
-                        renderLeftButton={null}              
-                     /> 
                     <Scene key="userProfile" tabs>
+                        <Scene 
+                            key="profile" 
+                            component={Profile} 
+                            title="Profile"
+                            renderLeftButton={null}              
+                        /> 
                         <Scene 
                             key="editProfile" 
                             component={EditProfile} 
                             title="Profile"
                             hideTabBar
+                        
                         />
                         <Scene 
                             key="picView" 
                             component={PicView} 
                             hideTabBar
                             back
+                            hideTabBar
                         />
                     </Scene>
                 </Scene>
