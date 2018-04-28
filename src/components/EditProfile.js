@@ -6,7 +6,7 @@ import { ImagePicker } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
 import { startAddPic,  startGetPics, startRemovePic } from '../actions/pics';
-
+import { startUpdateInfo } from '../actions/info';
 
 class EditProfile extends Component {
     state = {
@@ -30,6 +30,11 @@ class EditProfile extends Component {
             this.setState({ image: result.uri });
         };
     };
+
+    startUpdateInfo = () => {
+        this.props.startUpdateInfo({ name: this.state.name, details: this.state.details });
+        Actions.profile();
+    }
 
     submitPic = () => {
         if (this.props.pics.length >= 5) {
@@ -124,6 +129,9 @@ class EditProfile extends Component {
                             numberOfLines={4}
                         />
                     </CardSection>
+                    <Button onPress={this.startUpdateInfo}>
+                        Update Info
+                    </Button>
 
                 </Card>
             </ScrollView>
@@ -156,7 +164,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     startAddPic: (uri) => dispatch(startAddPic(uri)),
     startGetPics: () => dispatch(startGetPics()),
-    startRemovePic: (id) => dispatch(startRemovePic(id))
+    startRemovePic: (id) => dispatch(startRemovePic(id)),
+    startUpdateInfo: (name, details) => dispatch(startUpdateInfo(name, details))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

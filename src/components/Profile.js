@@ -7,6 +7,7 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 
 const Profile = (props) => (
     <Card>
+        <CardSection><Text></Text></CardSection>
         <CardSection>
             {props.pics[0] === undefined ? null :  <Image source={{ uri: props.pics[0].uri }} style={styles.itemContainer} />}
         </CardSection>
@@ -22,7 +23,8 @@ const styles = {
 }
 const mapStateToProps = (state) => {
     return {
-        pics: state.pics
+        pics: state.pics,
+        info: state.info
     }
 }
 
