@@ -9,7 +9,7 @@ const Profile = (props) => (
     <Card>
         <CardSection><Text></Text></CardSection>
         <CardSection>
-            {props.pics[0] === undefined ? null :  <Image source={{ uri: props.pics[0].uri }} style={styles.itemContainer} />}
+            
         </CardSection>
     </Card>
 )
@@ -23,10 +23,11 @@ const styles = {
 }
 const mapStateToProps = (state) => {
     return {
-        pics: state.pics,
+        pics: state.info.uri,
         info: state.info
     }
 }
 
+//{props.pics[0] === undefined ? <Image source={{ uri: '../../images/blank-profile.png'}} style={styles.itemContainer} /> :  <Image source={{ uri: props.pics[0] }} style={styles.itemContainer} />}
 
 export default connect(mapStateToProps)(Profile);

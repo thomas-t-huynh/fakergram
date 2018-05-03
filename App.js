@@ -10,7 +10,6 @@ import AppRouter from './src/router/AppRouter';
 import { Actions } from 'react-native-router-flux';
 
 import { login, logout } from './src/actions/auth';
-import { startGetPics } from './src/actions/pics';
 import { startGetInfo } from './src/actions/info';
 
 import Login from './src/components/Login';
@@ -27,9 +26,8 @@ export default class App extends React.Component {
 
 firebase.auth().onAuthStateChanged( async (user) => {
   if (user) {
-    store.dispatch(login(user.uid));
-    await store.dispatch(startGetInfo());
-    await store.dispatch(startGetPics())
+    await store.dispatch(login(user.uid));
+    // await store.dispatch(startGetInfo());
     Actions.main();
   
   } else {

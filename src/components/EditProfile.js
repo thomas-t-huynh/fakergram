@@ -5,9 +5,7 @@ import { Card, CardSection, Input, Button, Spinner, Confirm, TextArea } from './
 import { ImagePicker } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
-import { startAddPic,  startGetPics, startRemovePic } from '../actions/pics';
-import { startUpdateInfo, startGetInfo } from '../actions/info';
-
+import { startEditInfo,  startGetInfo } from '../actions/info';
 
 class EditProfile extends Component {
     state = {
@@ -18,7 +16,7 @@ class EditProfile extends Component {
     };
 
     componentWillMount() {
-        this.props.startGetPics();
+        this.props.startGetInfo();
     }
 
     startImagePicker = async () => {
@@ -32,19 +30,20 @@ class EditProfile extends Component {
         };
     };
 
-    startUpdateInfo = () => {
-        this.props.startUpdateInfo({ name: this.state.name, details: this.state.details });
+    startUpdateUserInfo = () => {
         Actions.profile();
     }
 
     submitPic = () => {
+        const prevPics = this.props.pics;
+        const addedNewPics =  prevPics.push(this.state.image);
+
         if (this.props.pics.length >= 5) {
             this.setState(() => ({ overModal: true }))
-        }
-         else {
-            this.props.startAddPic({ uri: this.state.image });
+        } else {
+            this.props.startEditInfo({uri: addedNewPics});
             this.setState(() => ({  image: null }));
-            this.props.startGetPics();    
+            this.props.startGetInfo();    
         };
     
     };
@@ -68,7 +67,7 @@ class EditProfile extends Component {
         <FlatList
             data={pics}
             renderItem={({item}) => (
-                <TouchableHighlight underlayColor='blue' onPress={() => {}} onShowUnderlay={() => Actions.picView({ id: item.id, uri: item.uri })} >
+                <TouchableHighlight underlayColor='blue' onPress={() => {}} onShowUnderlay={() => Actions.picView({ id: item.id, uri: item.uri, pics: this.state.pics })} >
                     <View style={styles.itemContainer}>
                         <Image source={{ uri: item.uri }} style={styles.item} />
                     </View>
@@ -84,6 +83,7 @@ class EditProfile extends Component {
             <ScrollView>
                 <Card>
                     {this.grid(this.props.pics)}
+                    {console.log(this.props.pics)}
                     <CardSection>
                         <Button onPress={this.startImagePicker}>
                             Upload photo
@@ -130,7 +130,7 @@ class EditProfile extends Component {
                             numberOfLines={4}
                         />
                     </CardSection>
-                    <Button onPress={this.startUpdateInfo}>
+                    <Button onPress={this.startUpdateUserInfo}>
                         Update Info
                     </Button>
 
@@ -158,17 +158,13 @@ const styles = {
 
 const mapStateToProps = (state) => {
     return {
-        pics: state.pics,
-        info: state.info
+        pics: state.info
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    startAddPic: (uri) => dispatch(startAddPic(uri)),
-    startGetPics: () => dispatch(startGetPics()),
-    startRemovePic: (id) => dispatch(startRemovePic(id)),
-    startUpdateInfo: (name, details) => dispatch(startUpdateInfo(name, details)),
-    startGetInfo: () => dispatch(startGetInfo())
+    startGetInfo: () => dispatch(startGetInfo()),
+    startEditInfo: (info) => dispatch(startEditInfo(info))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

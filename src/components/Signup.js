@@ -30,7 +30,6 @@ class Signup extends Component {
         this.setState(() => ({ loading: true }))
         this.props.createUser({ email, password }).then(() => {
             this.setState(() => ({ loading: false }));
-            Actions.login();
         })
     }
 
