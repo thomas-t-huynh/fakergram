@@ -1,33 +1,66 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, ScrollView, TouchableHighlight, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-// import { loginUser } from './../actions/auth';
+import { Actions } from 'react-native-router-flux';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
+import { startGetPics } from '../actions/pics';
 
-const Profile = (props) => (
-    <Card>
-        <CardSection><Text></Text></CardSection>
-        <CardSection>
-            
-        </CardSection>
-    </Card>
-)
 
-const windowSize = Dimensions.get('window');
-const styles = {
-  itemContainer: {
-    width: windowSize.width,
-    height: windowSize.height/2
-  }
-}
-const mapStateToProps = (state) => {
-    return {
-        pics: state.info.uri,
-        info: state.info
+class Profile extends Component {
+
+    componentWillMount() {
+        this.props.startGetPics();
+    }
+
+    grid = (pics) => {
+        return (
+        <FlatList
+            data={pics}
+            renderItem={({item}) => (
+                <TouchableHighlight underlayColor='blue' onPress={() => {}} onShowUnderlay={() => Actions.picView({ id: item.id, uri: item.uri })} >
+                    <View style={styles.itemContainer}>
+                        <Image source={{ uri: item.uri }} style={styles.item} />
+                    </View>
+                </TouchableHighlight>
+            )}
+            keyExtractor={item => item.id}
+            numColumns={numColumns} />            
+        )
+    }
+
+    render() {
+        return (
+            <ScrollView>
+                {this.grid(this.props.pics)}
+            </ScrollView>
+        )
     }
 }
 
-//{props.pics[0] === undefined ? <Image source={{ uri: '../../images/blank-profile.png'}} style={styles.itemContainer} /> :  <Image source={{ uri: props.pics[0] }} style={styles.itemContainer} />}
+const numColumns = 3;
+const size = Dimensions.get('screen').width/numColumns;
+const styles = {
+  itemContainer: {
+    width: size,
+    height: size,
+    backgroundColor: 'white'
+  },
+  item: {
+    flex: 1,
+    margin: 0.5
+  }
+};
 
-export default connect(mapStateToProps)(Profile);
+const mapStateToProps = (state) => {
+    return {
+        pics: state.pics
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    startGetPics: () => dispatch(startGetPics())
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -3,7 +3,7 @@ import { View, Text, Image, Dimensions, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux';
 // import { loginUser } from './../actions/auth';
 import { Card, CardSection, Input, Button, Spinner, Confirm } from './common';
-import { startEditInfo } from '../actions/info';
+import { startRemovePics, startGetPics } from '../actions/pics';
 import { Actions } from 'react-native-router-flux';
 
 
@@ -17,14 +17,10 @@ class PicView extends Component {
     };
 
     onAccept = () => {
-        const updatedPics = this.props.pics;
-        if (this.props.pics.includes(this.props.uri)) {
-            let index = prevPics.indexOf(this.props.uri);
-            updatedPics.splice(index, 1);
-            this.props.startEditInfo({ uri: updatedPics });
-        }
+        this.props.startRemovePics({ id: this.props.id });
         this.setState(() => ({ deleteModal: false }));
         Actions.profile();
+        this.props.startGetPics();
     };
 
     onDecline = () => {
@@ -70,7 +66,8 @@ const styles = {
 
 
 const mapDispatchToProps = (dispatch) => ({
-    startEditInfo: (id) => dispatch(startEditInfo(id))
+    startRemovePics: (id) => dispatch(startRemovePics(id)),
+    startGetPics: () => dispatch(startGetPics())
 })
 
 export default connect(undefined, mapDispatchToProps)(PicView);

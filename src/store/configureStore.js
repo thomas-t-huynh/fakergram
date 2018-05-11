@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import authReducer from './../reducers/auth';
-import infoReducer from './../reducers/info';
+import picsReducer from './../reducers/pics';
 
 export default store = createStore(
         combineReducers({
             auth: authReducer,
-            info: infoReducer
+            pics: picsReducer
         }), {}, applyMiddleware(ReduxThunk)
     );
 

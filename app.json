@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "blunder",
+    "name": "fakergram",
     "description": "This project is really great.",
-    "slug": "blunder",
+    "slug": "fakergram",
     "privacy": "public",
     "sdkVersion": "26.0.0",
     "platforms": ["ios", "android"],
